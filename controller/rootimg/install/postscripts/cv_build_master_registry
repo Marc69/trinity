@@ -19,6 +19,7 @@
 REGISTRY="localhost:5050"
 TOPDIR="/trinity"
 profiles=(
+  "openldap"
   "mariadb"
   "galera"
   "rabbitmq"
@@ -29,9 +30,10 @@ profiles=(
   "trinity"
 )
 
-keystone_endpoint="http://$(hostname -i):35357/v2.0"
+VERSION=$(cat /trinity/version | head -2 | tail -1)
 
 for profile in "${profiles[@]}"; do
+  docker build -t ${REGISTRY}/${profile}:${VERSION} ${TOPDIR}/${profile}
   docker build --rm=true -t ${REGISTRY}/${profile} ${TOPDIR}/${profile}
   docker push ${REGISTRY}/${profile}
 done

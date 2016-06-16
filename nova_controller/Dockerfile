@@ -10,6 +10,7 @@ RUN yum -y -q install --setopt=tsflags=nodocs epel-release && \
                                            python-novaclient && \
     yum -y -q install --setopt=tsflags=nodocs python-pip && \
     yum -y update && yum clean all
+
 VOLUME /var/lib/nova
 RUN pip install supervisor
 

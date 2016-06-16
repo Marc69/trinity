@@ -29,7 +29,6 @@ fi
 
 "${mysql[@]}" <<-EOSQL
     SET @@SESSION.SQL_LOG_BIN=0;
-    set global max_connections = 1024;
 
     DELETE FROM mysql.user ;
     CREATE USER 'root'@'%' IDENTIFIED BY 'system' ;
@@ -79,6 +78,10 @@ pcs cluster cib-push config
 #--------------------------------------------------------------------------
 # Create keystone endpoints for glance etc
 #--------------------------------------------------------------------------
+
+# wait for slapd
+while :; do ldapsearch -x -b dc=local &>/dev/null; [[ $? != 255 ]] && break; sleep 1; done
+
 keystone_endpoint="http://controller.cluster:35357/v2.0"
 for i in {300..0}; do
     if curl -s ${keystone_endpoint}; then 
@@ -117,6 +120,7 @@ nova network-create \
        --fixed-range-v4 192.168.32.0/24 \
        --fixed-cidr 192.168.32.0/24 \
        --bridge-interface ${PRI_NIC} \
+       --multi-host T \
        --bridge ${BRIDGE} \
        ${NETWORK_LABEL}
 

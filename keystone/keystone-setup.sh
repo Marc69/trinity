@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+sleep 10s
 #------------------------------------------------------------------
 # Setup a helper variable
 #------------------------------------------------------------------
@@ -31,19 +32,22 @@ $KEYSTONE \
 # In http://docs.openstack.org/liberty/install-guide-rdo/keystone-users.html
 #------------------------------------------------------------------
 # section 1
+
+obol -H ldap://controller -w system user add "admin" --password system --cn "admin" --sn "admin" --givenName "admin"
+obol -H ldap://controller -w system user add "trinity" --password system --cn "trinity" --sn "trinity" --givenName "trinity"
+
 $KEYSTONE \
        project create \
        --description "Admin Project" \
        admin
 
 $KEYSTONE \
-       user create \
-       --password system \
+       role create \
        admin
 
 $KEYSTONE \
        role create \
-       admin
+       _member_
 
 $KEYSTONE \
        role add --project admin --user admin \

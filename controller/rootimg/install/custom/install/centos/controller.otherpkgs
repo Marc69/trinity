@@ -10,6 +10,8 @@ docker
 docker-registry
 epel-release
 
+#NEW_INSTALL_LIST#
+
 openstack-selinux
 openstack-utils
 openstack-nova-compute
@@ -34,6 +36,7 @@ python-bottle
 python-cherrypy
 python-tzlocal
 
+#NEW_INSTALL_LIST#
 #-- packages required for HA --#
 drbdlinks
 pacemaker
@@ -46,3 +49,6 @@ kmod-drbd84
 sshpass
 jq
 httpie
+
+# Speed up genimage and packimage
+pigz

@@ -95,8 +95,6 @@ copy(){
       LOCAL=/trinity/site-local/$1
       if [ -d "${LOCAL}/rootimg" ] ; then
         cp --dereference --recursive  --preserve ${LOCAL}/rootimg/. /
-      else
-        echo "No site-local rootimg found"
       fi
 
       #--------------------------------------------------
@@ -149,8 +147,6 @@ copy(){
       LOCAL=/trinity/site-local/$1
       if [ -d "${LOCAL}/rootimg" ] ; then
         cp --dereference --recursive  --preserve ${LOCAL}/rootimg/. /
-      else
-        echo "No site-local rootimg found"
       fi
     ;;
     *)
@@ -158,8 +154,6 @@ copy(){
       LOCAL=/trinity/site-local/$1
       if [ -d "${LOCAL}/rootimg" ] ; then
         cp --dereference --recursive  --preserve ${LOCAL}/rootimg/. /
-      else
-        echo "No site-local rootimg found"
       fi
     ;;
   esac  
@@ -169,7 +163,7 @@ extras(){
   REPO=$( cd "$1" && pwd )
   case $1 in
     master | controller)
-      (git branch | grep "*"; git rev-parse --short HEAD; git status --porcelain) > /trinity/version
+      (git branch | grep "*"; git describe; git status --porcelain) > /trinity/version
 #      cp /trinity/version /trinity/$1/rootimg/install/postscripts/cv_trinity_version
       if [ "$2" = "--tables" ]; then
         source /etc/profile.d/xcat.sh

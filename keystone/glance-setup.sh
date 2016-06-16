@@ -2,14 +2,11 @@
 #------------------------------------------------------------------
 # Setup glance service
 #------------------------------------------------------------------
+obol -H ldap://controller -w system user add glance --password system --cn glance --sn glance --givenName glance
+
 KEYSTONE="docker exec keystone openstack \
        --os-token system \
        --os-url http://controller:35357/v2.0"
-
-$KEYSTONE \
-       user create \
-       --password system \
-       glance
 
 $KEYSTONE role add --project service --user glance admin
 

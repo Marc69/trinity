@@ -1,3 +1,4 @@
 language: python
+sudo: required
 install: "git clone https://github.com/sstephenson/bats.git && bats/install.sh /usr/local"
 script: bats obol
